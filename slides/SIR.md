@@ -75,11 +75,6 @@ $\dot{R}=\gamma I$
 - 易于扩展
 
 ---
-![h:550px](./assets/SIRplot.svg)
-- $\beta=1.4\times 10^{-5}, \gamma=0.2, R_e=3.5$
-- $N=50000,I(0)=1$
-
----
 ```python
 model SIR "Susceptible, Infected and Recovered model"
   Real S "易感人群";
@@ -103,6 +98,11 @@ equation
   der(R) = gamma*I "康复人群方程";
 end SIR;
 ```
+
+---
+![h:550px](./assets/SIRplot.svg)
+- $\beta=1.4\times 10^{-5}, \gamma=0.2, R_e=3.5$
+- $N=50000,I(0)=1$
 
 ---
 `非常识性结论`:
