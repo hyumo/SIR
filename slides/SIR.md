@@ -11,12 +11,13 @@ _paginate: false
 ---
 `数学模型`:用数学语言描述一些具有规律性或常识性的现象
 
----
 
+
+<!-- ---
 # 显而易见
 - `现象1`: 病毒携带者人数越多，感染的速率就越快。
 - `现象2`: 易感人群的人口基数越大，单个病毒携带者的感染能力越强。
-- `现象3`: 由于人类自身免疫力，医学的进步和科学的治疗，被感染的人中总有一定比例会被治愈。
+- `现象3`: 由于人类自身免疫力，医学的进步和科学的治疗，被感染的人中总有一定比例会被治愈。 -->
 
 ---
 ![bg 80%](./assets/SIR.svg)
@@ -24,7 +25,7 @@ _paginate: false
 ---
 ![h:150px ](./assets/IR.svg)
 
-- `现象3`:每天都有一部分感染人群$I$以一个恒定的比例$\gamma$转变为康复人群$R$。
+- 每天都有一部分感染人群$I$以一个恒定的比例$\gamma$转变为康复人群$R$。
 
 ---
 $\dot{R}=\gamma I$
@@ -37,8 +38,8 @@ $\dot{R}=\gamma I$
 ---
 ![h:150px ](./assets/SI.svg)
 
-- `现象1`: 病毒携带者数量（感染人群）越大，感染的速度就越快 $\dot{S}\propto I$
-- `现象2`: 易感人群数量越大，单个病毒携带者能感染的速度就越快 $\dot{S}\propto S$
+- 病毒携带者数量（感染人群）越大，感染的速度就越快 $\dot{S}\propto I$
+- 易感人群数量越大，单个病毒携带者能感染的速度就越快 $\dot{S}\propto S$
 
 ---
 $\dot{S}=-\beta SI$
@@ -77,6 +78,31 @@ $\dot{R}=\gamma I$
 ![h:550px](./assets/SIRplot.svg)
 - $\beta=1.4\times 10^{-5}, \gamma=0.2, R_e=3.5$
 - $N=50000,I(0)=1$
+
+---
+```python
+model SIR "Susceptible, Infected and Recovered model"
+  Real S "易感人群";
+  Real I "感染人群";
+  Real R "康复人群";
+  parameter Real beta(min=0) = 0.7/50000 "感染率";
+  parameter Real gamma(min=0) = 0.2 "康复率";
+  parameter Integer N(min=0) = 50000 "总人口";
+  parameter Integer I0(min=0) = 5 "初始感染人群数量";
+protected 
+  final parameter Integer R0=0 "初始康复人群数量";
+  final parameter Integer S0=N - I0 - R0 "初始易感人群数量";
+  final parameter Real Re=S0*beta/gamma "有效繁殖数";
+initial equation 
+  S = S0;
+  I = I0;
+  R = R0;
+equation 
+  der(S) = -beta*S*I "易感人群方程";
+  der(I) = beta*S*I - gamma*I "感染人群方程";
+  der(R) = gamma*I "康复人群方程";
+end SIR;
+```
 
 ---
 `非常识性结论`:
